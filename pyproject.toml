@@ -1,0 +1,10 @@
+[project]
+name = "ai-chat-application-local-llm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "langchain>=1.2.15",
+    "streamlit>=1.57.0",
+]
