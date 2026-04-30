@@ -1,6 +1,8 @@
 # app.py
 import streamlit as st
 from core_engine import get_memory_chain  # Import your chain
+import uuid
+
 
 # Page config (title + layout)
 st.set_page_config(page_title="AI Guru", layout="wide")
@@ -50,3 +52,15 @@ if prompt := st.chat_input("Type your message..."):
 if st.sidebar.button("🗑️ Clear Chat History"):
     st.session_state.messages = []
     st.rerun()  # Page refresh karke UI update karo
+
+
+
+# Sidebar mein session ID initialize karo (ek baar)
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+
+# New Chat button
+if st.sidebar.button("➕ New Chat"):
+    st.session_state.messages = []
+    st.session_state.session_id = str(uuid.uuid4())  # Naya session ID
+    st.rerun()
