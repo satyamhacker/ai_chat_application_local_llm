@@ -12,7 +12,7 @@ def get_memory_chain():
     
     # Prompt template
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "You are a helpful AI assistant."),
+        ("system", "You are a helpful AI assistant.always give response in 15 words"),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human", "{input}")
     ])
