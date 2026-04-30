@@ -42,7 +42,7 @@ if prompt := st.chat_input("Type your message..."):
         with st.spinner("AI Guru is thinking..."):
             response_stream = memory_chain.stream(
                 {"input": prompt},
-                config={"configurable": {"session_id": "user_session_123"}}
+                config={"configurable": {"session_id": st.session_state.session_id}}
             )
             response = st.write_stream(response_stream)
         
