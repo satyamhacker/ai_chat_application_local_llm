@@ -35,13 +35,13 @@ if prompt := st.chat_input("Type your message..."):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # 🔥 Get REAL AI response from your chain
+# 🔥 Get REAL AI response from your chain
     with st.chat_message("assistant"):
         with st.spinner("AI Guru is thinking..."):
-            response = memory_chain.invoke(
+            response_stream = memory_chain.stream(
                 {"input": prompt},
                 config={"configurable": {"session_id": "user_session_123"}}
             )
+            response = st.write_stream(response_stream)
         
-        st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
