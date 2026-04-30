@@ -45,3 +45,8 @@ if prompt := st.chat_input("Type your message..."):
             response = st.write_stream(response_stream)
         
         st.session_state.messages.append({"role": "assistant", "content": response})
+
+# Sidebar mein (existing sidebar code ke neeche)
+if st.sidebar.button("🗑️ Clear Chat History"):
+    st.session_state.messages = []
+    st.rerun()  # Page refresh karke UI update karo
