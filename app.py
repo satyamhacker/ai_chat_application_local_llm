@@ -1,8 +1,16 @@
 # app.py
 import streamlit as st
+from core_engine import get_memory_chain  # Import your chain
 
 # Page config (title + layout)
 st.set_page_config(page_title="AI Guru", layout="wide")
+
+# Cache the LLM chain (load once, reuse forever)
+@st.cache_resource
+def load_chain():
+    return get_memory_chain()
+
+memory_chain = load_chain()
 
 # App header
 st.title("🧠 AI Guru — Local LLM Chat")
@@ -11,7 +19,7 @@ st.title("🧠 AI Guru — Local LLM Chat")
 st.sidebar.header("⚙️ Settings")
 st.sidebar.write("Configure your model and session here.")
 
-# Chat input + output area
+# Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -27,8 +35,13 @@ if prompt := st.chat_input("Type your message..."):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Placeholder for AI response (later we’ll connect ChatOllama here)
-    response = f"🤖 (AI Guru would reply to: {prompt})"
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    # 🔥 Get REAL AI response from your chain
     with st.chat_message("assistant"):
+        with st.spinner("AI Guru is thinking..."):
+            response = memory_chain.invoke(
+                {"input": prompt},
+                config={"configurable": {"session_id": "user_session_123"}}
+            )
+        
         st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
